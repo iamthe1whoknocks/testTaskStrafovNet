@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package api;
+
+message Request {
+     string  INN = 1;
+}
+
+message Response {
+     string INN = 1;
+     string KPP = 2;
+     string Name = 3;
+     string Leader = 4;
+}
+
+service API {
+    rpc Get (Request) returns (Response) {}
+ }
+
+//protoc -I=. --go_out=plugins=grpc:. api/testTaskStrafovNet.proto 
