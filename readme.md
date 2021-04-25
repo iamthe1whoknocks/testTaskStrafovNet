@@ -6,8 +6,14 @@
 
 ## Технологии
 
-* сервис должен быть написан на Go с использованием Go Modules
-* предоставлять API через [gRPC](https://grpc.io/docs/languages/go/quickstart/)
-* предоставлять API через HTTP с помощью [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway)
+* сервис должен быть написан на Go с использованием Go Modules  +
+* предоставлять API через [gRPC](https://grpc.io/docs/languages/go/quickstart/)  +
+* предоставлять API через HTTP с помощью [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway) + 
 * предоставлять Swagger UI с документацией, сгенерированной из .proto файла с помощью protoc-gen-swagger
 * быть упакован в docker контейнер
+
+
+# Todo
+1. варианты множественного вывода 
+смотрим тайтл - если "результаты поиска", значит нужен доп. парсинг (если дескрипшн не 0)
+              - если "результатов поиска" нет, значит мы сраху попали в цель

@@ -5,14 +5,17 @@ import (
 	"log"
 	"net"
 
-	pb "github.com/DimkaTheGreat/testTaskStrafovNet/pkg/api"
 	"github.com/DimkaTheGreat/testTaskStrafovNet/pkg/parser"
+	pb "github.com/DimkaTheGreat/testTaskStrafovNet/proto/testTaskStrafovNet"
 	"google.golang.org/grpc"
 )
 
-type GRPCServer struct{}
+type GRPCServer struct {
+	pb.UnimplementedAPIServer
+}
 
 func (g *GRPCServer) Get(ctx context.Context, req *pb.Request) (resp *pb.Response, err error) {
+	log.Println("Got request, INN = ", req.INN)
 	resp, err = parser.GetCompanyInfo(req.INN)
 
 	if err != nil {
