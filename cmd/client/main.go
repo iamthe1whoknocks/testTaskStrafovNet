@@ -23,7 +23,7 @@ func main() {
 	c := pb.NewAPIClient(conn)
 
 	req := &pb.Request{
-		INN: "wefwefwefwefwe",
+		INN: "1656002652",
 	}
 
 	resp, err := c.Get(context.Background(), req)
@@ -51,4 +51,6 @@ func main() {
 	log.Fatalln(gwServer.ListenAndServe())
 }
 
-//curl -X POST -k http://localhost:55556/v1/post -d '{"INN": "7731559044"}'
+//curl -X POST -k http://localhost:55556/v1/post -d '{"INN": "1656002652"}'
+
+//2913003750
