@@ -9,5 +9,5 @@
 * сервис должен быть написан на Go с использованием Go Modules  +
 * предоставлять API через [gRPC](https://grpc.io/docs/languages/go/quickstart/)  +
 * предоставлять API через HTTP с помощью [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway) + 
-* предоставлять Swagger UI с документацией, сгенерированной из .proto файла с помощью protoc-gen-swagger
-* быть упакован в docker контейнер
+* предоставлять Swagger UI с документацией, сгенерированной из .proto файла с помощью protoc-gen-swagger +
+* быть упакован в docker контейнер (multistage???)

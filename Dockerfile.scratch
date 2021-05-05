@@ -1,0 +1,15 @@
+FROM alpine:3.9 as builder
+
+RUN apk update && apk add ca-certificates tzdata
+
+FROM scratch
+
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo/
+
+ADD cmd/server/server /
+EXPOSE 55555
+CMD ["/server"]
+
+# docker build -t test_task_strafov_net-scratch -f Dockerfile.scratch .
+# docker run -it -p 55555:55555 test_task_strafov_net-scratch
