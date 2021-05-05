@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"os"
 
-	pb "github.com/DimkaTheGreat/testTaskStrafovNet/proto/testTaskStrafovNet"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	pb "github.com/iamthe1whoknocks/testTaskStrafovNet/proto/testTaskStrafovNet"
 	"google.golang.org/grpc"
 )
 
@@ -35,8 +35,8 @@ func main() {
 
 	log.Printf("%s\n%s\n%s\n%s\n", resp.INN, resp.KPP, resp.Name, resp.Leader)
 
+	//grpc-gateway
 	gwmux := runtime.NewServeMux()
-	// Register Greeter
 	err = pb.RegisterAPIHandler(context.Background(), gwmux, conn)
 	if err != nil {
 		log.Fatalln("Failed to register gateway:", err)
@@ -52,5 +52,3 @@ func main() {
 }
 
 //curl -X POST -k http://localhost:55556/v1/post -d '{"INN": "1656002652"}'
-
-//2913003750

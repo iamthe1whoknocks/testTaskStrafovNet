@@ -5,8 +5,8 @@ import (
 	"log"
 	"net"
 
-	"github.com/DimkaTheGreat/testTaskStrafovNet/pkg/parser"
-	pb "github.com/DimkaTheGreat/testTaskStrafovNet/proto/testTaskStrafovNet"
+	"github.com/iamthe1whoknocks/testTaskStrafovNet/pkg/parser"
+	pb "github.com/iamthe1whoknocks/testTaskStrafovNet/proto/testTaskStrafovNet"
 	"google.golang.org/grpc"
 )
 
@@ -35,7 +35,9 @@ func main() {
 
 	log.Println("start listening at port 55555")
 	server := grpc.NewServer()
+
 	grpcServer := &GRPCServer{}
+
 	pb.RegisterAPIServer(server, grpcServer)
 
 	err = server.Serve(listener)

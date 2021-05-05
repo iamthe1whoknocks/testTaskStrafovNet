@@ -7,11 +7,13 @@ import (
 	"net/http"
 	"strings"
 
-	pb "github.com/DimkaTheGreat/testTaskStrafovNet/proto/testTaskStrafovNet"
 	"github.com/PuerkitoBio/goquery"
+	pb "github.com/iamthe1whoknocks/testTaskStrafovNet/proto/testTaskStrafovNet"
 )
 
-const queryURL = "https://www.rusprofile.ru/search?query=%v"
+// пример ИНН для получения множественного вывода : 1656002652)
+
+const queryURL = "https://www.rusprofile.ru/search?query=%v" //шаблон поисковой строки
 
 //Основная функция парсинга
 func GetCompanyInfo(inn string) (*pb.Response, error) {
@@ -74,7 +76,6 @@ func getDescription(doc *goquery.Document) (resultNum string, err error) {
 		}
 		return true
 	})
-	log.Println("Описание : ", metaDescription)
 	return metaDescription, nil
 
 }
@@ -87,7 +88,7 @@ func getResultNumber(desc string) (resultNum string) {
 
 }
 
-//парсинг html-документа при корректной выдаче результата
+//парсинг html-документа при выдаче единственного результата
 func parseCompanyInfo(doc *goquery.Document) (companyInfo *pb.Response, err error) {
 	companyInfo = &pb.Response{}
 	doc.Find("span").EachWithBreak(func(index int, item *goquery.Selection) bool {
@@ -142,11 +143,9 @@ func isSuccessSearch(doc *goquery.Document) (successSearch bool) {
 	doc.Find("title").EachWithBreak(func(index int, item *goquery.Selection) bool {
 		if strings.Contains(item.Text(), "результаты поиска") == true {
 			successSearch = false
-			log.Println("Неоднозначные результаты поиска")
 			return false
 		}
 		successSearch = true
-		log.Println("однозначные результаты поиска")
 		return true
 	})
 	return successSearch
@@ -154,6 +153,8 @@ func isSuccessSearch(doc *goquery.Document) (successSearch bool) {
 
 //получаем ОГРН для получения точного результата парсинга url с множественной выдачей (пример : https://www.rusprofile.ru/search?query=1656002652&search_inactive=0)
 func findRequestedOGRN(doc *goquery.Document, requestedINN string) (ogrn string, err error) {
+
+	//для получения ОГРН при множественном результате поисковой выдаче нужно получить следующее за ИНН поле <dd></dd>
 	var keyForNextElement int
 	m := make(map[int]string)
 	doc.Find("dd").Each(func(i int, dd *goquery.Selection) {
@@ -162,12 +163,13 @@ func findRequestedOGRN(doc *goquery.Document, requestedINN string) (ogrn string,
 			keyForNextElement = i
 		}
 	})
+
 	ogrn = m[keyForNextElement+1]
 
 	if ogrn != "" {
 		return ogrn, nil
 	}
-	return "", errors.New("Cant find company with such INN (from ogrn)")
+	return "", errors.New("Cant find company with such INN")
 }
 
 //Получение HTML-документа для парсинга
@@ -188,6 +190,3 @@ func getHTMLdocument(props string) (doc *goquery.Document, err error) {
 	return doc, nil
 
 }
-
-//Если множественный вывод (пример : 1656002652)
-//7731559044
